@@ -75,6 +75,11 @@
                     </td>
                 </tr>
                 <tr class="menu-row">
+                    <td class="menu-btn" style="background-image: url('../img/icons/products.svg')">
+                        <a href="products.php" class="non-style-link-menu"><div><p class="menu-text">Products</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row">
                     <td class="menu-btn menu-icon-doctor menu-active menu-icon-doctor-active">
                         <a href="doctors.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">All Doctors</p></a></div>
                     </td>
@@ -299,21 +304,14 @@
             </div>
             ';
         }elseif($action=='view'){
-            $sqlmain = "SELECT * FROM doctor WHERE docid=?";
-            $stmt = $database->prepare($sqlmain);
-            $stmt->bind_param("i",$id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $row = $result->fetch_assoc();
-
+            $sqlmain= "select * from doctor where docid='$id'";
+            $result= $database->query($sqlmain);
+            $row=$result->fetch_assoc();
             $name=$row["docname"];
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $stmt = $database->prepare("select sname from specialties where id=?");
-            $stmt->bind_param("s",$spe);
-            $stmt->execute();
-            $spcil_res = $stmt->get_result();
+            $spcil_res= $database->query("select sname from specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
             $nic=$row['docnic'];
@@ -436,23 +434,14 @@
             ';
         }
         }elseif($action=='edit'){
-            $sqlmain= "select * from doctor where docid=?";
-            $stmt = $database->prepare($sqlmain);
-            $stmt->bind_param("i",$id);
-            $stmt->execute();
-            $result = $stmt->get_result();
+            $sqlmain= "select * from doctor where docid='$id'";
+            $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
-       
             $name=$row["docname"];
             $email=$row["docemail"];
             $spe=$row["specialties"];
             
-            $sqlmain= "select sname from specialties where id='?";
-            $stmt = $database->prepare($sqlmain);
-            $stmt->bind_param("s",$spe);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
+            $spcil_res= $database->query("select sname from specialties where id='$spe'");
             $spcil_array= $spcil_res->fetch_assoc();
             $spcil_name=$spcil_array["sname"];
             $nic=$row['docnic'];

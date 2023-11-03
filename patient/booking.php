@@ -39,12 +39,7 @@
 
     //import database
     include("../connection.php");
-
-    $sqlmain= "select * from patient where pemail=?";
-    $stmt = $database->prepare($sqlmain);
-    $stmt->bind_param("s",$useremail);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $userrow = $database->query("select * from patient where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
@@ -209,12 +204,10 @@
 
                                     $id=$_GET["id"];
 
-                                    $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduleid=? order by schedule.scheduledate desc";
-                                    $stmt = $database->prepare($sqlmain);
-                                    $stmt->bind_param("i", $id);
-                                    $stmt->execute();
-                                    $result = $stmt->get_result();
+                                    $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduleid=$id  order by schedule.scheduledate desc";
+
                                     //echo $sqlmain;
+                                    $result= $database->query($sqlmain);
                                     $row=$result->fetch_assoc();
                                     $scheduleid=$row["scheduleid"];
                                     $title=$row["title"];
@@ -254,6 +247,17 @@
                                                           
                                                         </div><br>
                                                         <div class="h3-search" style="font-size:18px;">
+                                                            <select name="book-services" id="" style="font-size:18px;">
+                                                                <option value="" disabled selected hidden>CHOOSE SERVICES</option>
+                                                                <option value="service-1">FOLLOW-UP CHECKUP</option>
+                                                                <option value="service-2">COMPREHENSIVE EYE EXAMINATION</option>
+                                                                <option value="service-3">GLAUCOMA ASSESSEMENT</option>
+                                                                <option value="service-4>CATARACT ASSESSEMENT</option>
+                                                                <option value="service-5">MACULAR DEGENERATION ASSESSMENT</option>
+                                                                <option value="service-6">DIABETIC VISION ASSESSMENT</option>
+                                                                <option value="service-7">EYE REFRACTION AND VISION MANAGEMENT</option>
+                                                                <option value="service-8">VISUAL TRAINING AND DEVELOPMENT</option>
+                                                            </select><br>
                                                             Session Title: '.$title.'<br>
                                                             Session Scheduled Date: '.$scheduledate.'<br>
                                                             Session Starts : '.$scheduletime.'<br>
@@ -318,7 +322,7 @@
                 </tr>
                        
                         
-                        
+                    
             </table>
         </div>
     </div>

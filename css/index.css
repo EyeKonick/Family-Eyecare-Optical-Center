@@ -1,87 +1,179 @@
+
 body{
-    background-image: url(../img/bgdoc.jpg);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    height: 100%;
+  background-image: url(../img/bgdoc.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 100%;
 }
 
 html, body {
-    height: 100%;
-    margin: 0;
-  }
-  
+  height: 100%;
+  margin: 0;
+}
+
 .full-height {
-    background: rgba(26, 26, 26, 0.548);
-    background-attachment: fixed;
-    max-height: 100vh;
-    height: 100vh;
+  background: rgba(26, 26, 26, 0.548);
+  background-attachment: fixed;
+  max-height: 100%;
+  height: 100vh;
+  border-bottom: 2px solid lightgray;
 
 
 }
 table{
-    width: 100%;
-    padding-top: 5px;
-    
+  width: 100%;
+  padding-top: 5px;
+  
+}
+
+hr {
+  border-bottom: 2px solid rgb(136, 136, 136);
 }
 .heading-text{
-    color: white;
-    font-size: 42px;
-    font-weight: 700;
-    line-height: 63px;
-    margin-top: 15%;
-    text-align: center;
-    margin-bottom: 0;
+  color: white;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 63px;
+  margin-top: 15%;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.mission-vision, .products {
+  padding-top: 10%;
+  padding-bottom: 10%;
+  background: rgba(26, 26, 26, 0.548);
+  display: flex;
+  overflow: auto;
+  border-bottom: 2px solid lightgray;
+}
+
+.heading-text-vision{
+  color: white;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 63px;
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 0;
 }
 
 .sub-text2{
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 17px;
-    line-height: 27px;
-    font-weight: 400;
-    text-align: center;
-    margin-top: 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 25px;
+  line-height: 27px;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 0;
+}
+
+.vision, .mission {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 25px;
+  line-height: 27px;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 0;
+  width: 50%;
+}
+
+li {
+  margin-bottom: 25px;
+  font-size: 30px;
+  color: rgba(255, 255, 255, 0.712)
 }
 
 
 .register-btn{
-    background-color: rgba(240, 248, 255, 0.589);
-    color: #345cc4;
+  background-color: rgba(240, 248, 255, 0.589);
+  color: #345cc4;
 }
 
 
 .edoc-logo{
-    color: white;
-    font-weight: bolder;
-    font-size: 20px;
-    padding-left: 20px;
-    animation: transitionIn-Y-over 0.5s;
+  color: white;
+  font-weight: bolder;
+  font-size: 20px;
+  padding-left: 20px;
+  animation: transitionIn-Y-over 0.5s;
 }
 
 .edoc-logo-sub{
-    color: rgba(255, 255, 255, 0.733);
-    font-size: 12px;
+  color: rgba(255, 255, 255, 0.733);
+  font-size: 12px;
 
 }
 
 
 .nav-item{
-    color: rgba(255, 255, 255, 0.671);
-    text-align: center;
-    font-size: 15px;
-    font-weight: 500;
-    animation: transitionIn-Y-over 0.5s;
+  color: rgba(255, 255, 255, 0.671);
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  animation: transitionIn-Y-over 0.5s;
 }
 
 .nav-item:hover{
-    color: #f0f0f0;
+  color: #f0f0f0;
 
 }
 
 .footer-hashen{
-    position: absolute;
-    bottom: 0;
-    left: 45%;
-    font-size: 13px;
-    animation: transitionIn-Y-over 0.5s;
+  position: absolute;
+  bottom: 0;
+  left: 45%;
+  font-size: 13px;
+  animation: transitionIn-Y-over 0.5s;
+}
+
+.products {
+  flex-direction: column;
+}
+.products-heading {
+  color: white;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 63px;
+  text-align: center;
+  margin: 0;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  margin-bottom: 0;
+}
+
+.products-items {
+  display: flex;
+  margin-bottom: 5%;
+}
+
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  color: white;
+  text-align: center;
+  font-family: arial;
+}
+
+.price {
+  color: rgb(255, 255, 255);
+  font-size: 22px;
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.card button:hover {
+  opacity: 0.7;
 }

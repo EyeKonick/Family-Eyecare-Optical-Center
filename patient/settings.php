@@ -46,11 +46,7 @@
 
     //import database
     include("../connection.php");
-    $sqlmain= "select * from patient where pemail=?";
-    $stmt = $database->prepare($sqlmain);
-    $stmt->bind_param("s",$useremail);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $userrow = $database->query("select * from patient where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
@@ -83,6 +79,11 @@
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-home " >
                         <a href="index.php" class="non-style-link-menu "><div><p class="menu-text">Home</p></a></div></a>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn" style="background-image: url('../img/icons/products.svg')">
+                        <a href="products.php" class="non-style-link-menu"><div><p class="menu-text">Products</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row">
@@ -265,11 +266,8 @@
             </div>
             ';
         }elseif($action=='view'){
-            $sqlmain= "select * from patient where pid=?";
-            $stmt = $database->prepare($sqlmain);
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $result = $stmt->get_result();
+            $sqlmain= "select * from patient where pid='$id'";
+            $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["pname"];
             $email=$row["pemail"];
@@ -380,11 +378,8 @@
             </div>
             ';
         }elseif($action=='edit'){
-            $sqlmain= "select * from patient where pid=?";
-            $stmt = $database->prepare($sqlmain);
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $result = $stmt->get_result();
+            $sqlmain= "select * from patient where pid='$id'";
+            $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
             $name=$row["pname"];
             $email=$row["pemail"];

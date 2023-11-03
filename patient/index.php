@@ -44,14 +44,8 @@
 
     //import database
     include("../connection.php");
-
-    $sqlmain= "select * from patient where pemail=?";
-    $stmt = $database->prepare($sqlmain);
-    $stmt->bind_param("s",$useremail);
-    $stmt->execute();
-    $userrow = $stmt->get_result();
+    $userrow = $database->query("select * from patient where pemail='$useremail'");
     $userfetch=$userrow->fetch_assoc();
-
     $userid= $userfetch["pid"];
     $username=$userfetch["pname"];
 
@@ -86,6 +80,11 @@
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-home menu-active menu-icon-home-active" >
                         <a href="index.php" class="non-style-link-menu non-style-link-menu-active"><div><p class="menu-text">Home</p></a></div></a>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn" style="background-image: url('../img/icons/products.svg')">
+                        <a href="products.php" class="non-style-link-menu"><div><p class="menu-text">Products</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row">
