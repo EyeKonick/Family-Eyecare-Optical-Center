@@ -284,6 +284,18 @@
                                                     Session
                                                     
                                                 </th>
+                                                <th class="table-headin">
+                                                    
+                                                
+                                                    Service
+                                                    
+                                                </th>
+                                                <th class="table-headin">
+                                                    
+                                                
+                                                    Reserve Item
+                                                    
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>

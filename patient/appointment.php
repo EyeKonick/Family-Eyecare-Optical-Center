@@ -280,10 +280,16 @@
                                                                 <div class="h3-search">
                                                                     '.substr($docname,0,30).'
                                                                 </div>
+                                                                <div class="h4-search">
+                                                                    Service: "NONE"
+                                                                </div>
+                                                                <div class="h4-search">
+                                                                    Reserve Item: "NONE"
+                                                                </div>
                                                                 
                                                                 
                                                                 <div class="h4-search">
-                                                                    Scheduled Date: '.$scheduledate.'<br>Starts: <b>@'.substr($scheduletime,0,5).'</b> (24h)
+                                                                    Scheduled Date:'.$scheduledate.'<br>Starts: <b>@'.substr($scheduletime,0,5).'</b> (24h)
                                                                 </div>
                                                                 <br>
                                                                 <a href="?action=drop&id='.$appoid.'&title='.$title.'&doc='.$docname.'" ><button  class="login-btn btn-primary-soft btn "  style="padding-top:11px;padding-bottom:11px;width:100%"><font class="tn-in-text">Cancel Booking</font></button></a>

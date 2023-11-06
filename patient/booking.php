@@ -264,6 +264,7 @@
                                                                 <option value="service-8">VISUAL TRAINING AND DEVELOPMENT</option>
                                                             </select><br>
                                                             Session Title: '.$title.'<br>
+                                                            Reserve Item:<br>
                                                             Session Scheduled Date: '.$scheduledate.'<br>
                                                             Session Starts : '.$scheduletime.'<br>
                                                             Channeling fee : <b>LKR.2 000.00</b>
