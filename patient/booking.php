@@ -86,6 +86,11 @@
                     </td>
                 </tr>
                 <tr class="menu-row">
+                    <td class="menu-btn" style="background-image: url('../img/icons/products.svg')">
+                        <a href="products.php" class="non-style-link-menu"><div><p class="menu-text">Products</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row">
                     <td class="menu-btn menu-icon-doctor">
                         <a href="doctors.php" class="non-style-link-menu"><div><p class="menu-text">All Doctors</p></a></div>
                     </td>
