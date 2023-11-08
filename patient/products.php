@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if(!$_SESSION['isLoggedIn']) {
+    header('location: ../login.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,33 +29,6 @@
 </head>
 <body>
     <?php
-
-    //learn from w3schools.com
-
-    session_start();
-
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
-            header("location: ../login.php");
-        }else{
-            $useremail=$_SESSION["user"];
-        }
-
-    }else{
-        header("location: ../login.php");
-    }
-    
-
-    //import database
-    include("../connection.php");
-    $userrow = $database->query("select * from patient where pemail='$useremail'");
-    $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["pid"];
-    $username=$userfetch["pname"];
-
-
-    //echo $userid;
-    //echo $username;
     
     date_default_timezone_set('Asia/Kolkata');
 
@@ -67,8 +48,8 @@
                                  <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
                              </td>
                              <td style="padding:0px;margin:0px;">
-                                 <p class="profile-title"><?php echo substr($username,0,13)  ?>..</p>
-                                 <p class="profile-subtitle"><?php echo substr($useremail,0,22)  ?></p>
+                                 <p class="profile-title"><?php echo $_SESSION['pname']; ?></p>
+                                 <p class="profile-subtitle"><?php echo $_SESSION['pemail']; ?></p>
                              </td>
                          </tr>
                          <tr>
@@ -114,6 +95,7 @@
             </table>
         </div>
         <?php
+                require_once('../connection.php');
 
                 $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduledate>='$today'  order by schedule.scheduledate asc";
                 $sqlpt1="";

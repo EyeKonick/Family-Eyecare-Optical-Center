@@ -99,28 +99,36 @@
                 <h1>EYEGLASS 1</h1>
                 <p class="price">$350</p>
                 <p>Some text about the glasses..</p>
-                <p><button>See More</button></p>
+                <form action="functions/Product.php" method="get">
+                    <p><button name="see_more_glass_one">See More</button></p>
+                </form>
               </div>
               <div class="card">
                 <img src="img/eyeglass2.jpg" alt="Denim Jeans" style="width:100%">
                 <h1>EYEGLASS 1</h1>
                 <p class="price">$350</p>
                 <p>Some text about the glasses..</p>
-                <p><button>See More</button></p>
+                <form action="functions/Product.php" method="get">
+                    <p><button name="see_more_glass_two">See More</button></p>
+                </form>
               </div>
               <div class="card">
                 <img src="img/eyeglass3.jpg" alt="Denim Jeans" style="width:100%">
                 <h1>EYEGLASS 1</h1>
                 <p class="price">$350</p>
                 <p>Some text about the glasses..</p>
-                <p><button>See More</button></p>
+                <form action="functions/Product.php" method="get">
+                    <p><button name="see_more_glass_three">See More</button></p>
+                </form>
               </div>
               <div class="card">
                 <img src="img/eyeglass3.jpg" alt="Denim Jeans" style="width:100%">
                 <h1>EYEGLASS 1</h1>
                 <p class="price">$350</p>
                 <p>Some text about the glasses..</p>
-                <p><button>See More</button></p>
+                <form action="functions/Product.php" method="get">
+                    <p><button name="see_more_glass_four">See More</button></p>
+                </form>
               </div>
         </div>
 
@@ -130,21 +138,27 @@
                 <h1>Vitamins 1</h1>
                 <p class="price">$350</p>
                 <p>Some text about the glasses..</p>
-                <p><button>See More</button></p>
+                <form action="functions/Product.php" method="get">
+                    <p><button name="see_more_glass_five">See More</button></p>
+                </form>
               </div>
               <div class="card">
                 <img src="img/vitamins2.jpg" alt="Denim Jeans" style="width:100%">
                 <h1>Vitamins 2</h1>
                 <p class="price">$350</p>
                 <p>Some text about the glasses..</p>
-                <p><button>See More</button></p>
+                <form action="functions/Product.php" method="get">
+                    <p><button name="see_more_glass_six">See More</button></p>
+                </form>
               </div>
               <div class="card">
                 <img src="img/vitamins3.jpg" alt="Denim Jeans" style="width:100%">
                 <h1>Vitamins 3</h1>
                 <p class="price">$350</p>
                 <p>Some text about the glasses..</p>
-                <p><button>See More</button></p>
+                <form action="functions/Product.php" method="get">
+                    <p><button name="see_more_glass_seven">See More</button></p>
+                </form>
               </div>
         </div>
     </div>
