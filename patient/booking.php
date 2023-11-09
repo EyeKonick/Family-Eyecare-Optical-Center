@@ -14,6 +14,33 @@ $userfetch=$userrow->fetch_assoc();
 $userid= $userfetch["pid"];
 $username=$userfetch["pname"];
 
+try {
+    require_once('../db_conn.php');
+
+    function validate($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+
+        return $data;
+    }
+
+    $patientId = validate($_SESSION['pid']);
+
+    $query = 'SELECT * FROM patient AS p
+                INNER JOIN tbl_reservations AS r ON p.pid = r.patient_id
+                INNER JOIN tbl_products AS pr ON r.product_id = pr.product_id
+                WHERE p.pid = :patient_id;';
+    
+    $statement = $connection->prepare($query);
+    $statement->bindParam('patient_id', $patientId, PDO::PARAM_INT);
+    if($statement->execute()) {
+        $reservedItem = $statement->fetch(PDO::FETCH_OBJ);
+    }
+} catch(PDOException $exception) {
+    echo $messageFailed = $exception->getMessage();
+}
+
 date_default_timezone_set('Asia/Kolkata');
 
 $today = date('Y-m-d');
@@ -246,7 +273,7 @@ $today = date('Y-m-d');
                                                                 <option value="service-8">VISUAL TRAINING AND DEVELOPMENT</option>
                                                             </select><br>
                                                             Session Title: '.$title.'<br>
-                                                            Reserve Item:<br>
+                                                            Reserve Item: '. $reservedItem->name .'<br>
                                                             Session Scheduled Date: '.$scheduledate.'<br>
                                                             Session Starts : '.$scheduletime.'<br>
                                                             Channeling fee : <b>₱ 2 000.00</b>
