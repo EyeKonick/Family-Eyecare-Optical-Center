@@ -211,23 +211,24 @@ try {
                     </td>
                     
                 </tr>
-                <?php foreach($products as $product): ?>
-                <tr>
-                    <td colspan=4 class="products-content">
-                        <div class="products-items">
-                            <div class="card">
-                                <form action="../functions/Product.php" method="post">
-                                    <img src="../img/<?=$product->image?>" alt="Denim Jeans" style="width:100%">
-                                    <h1 name="eyeglass_one"><?=$product->name?></h1>
-                                    <p class="price" name="price">$<?=$product->price?></p>
-                                    <p name="description"><?=$product->description?></p>
-                                    <p><button value="<?=$product->product_id?>" name="btn_reserve">RESERVE</button></p>
-                                </form>
-                            </div>
+                <tr class="products-content">
+                    <?php foreach($products as $product): ?>
+                    <td class="products-items">
+                        <div class="card">
+                            <form action="../functions/Product.php" method="post">
+                                <img src="../img/<?=$product->image?>" alt="Denim Jeans" style="width:100%">
+                                <h1 name="eyeglass_one"><?=$product->name?></h1>
+                                <p class="price" name="price">$<?=$product->price?></p>
+                                <p name="description"><?=$product->description?></p>
+                                <p><button value="<?=$product->product_id?>" name="btn_reserve">RESERVE</button></p>
+                            </form>
                         </div>
                     </td>
-                </tr>
-                <?php endforeach; ?>
+                    <?php if(($product->product_id + 1) % 5 == 0): ?>
+                        </tr><tr class="products-content">
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+</tr>
             </table>
         </div>
     </div>

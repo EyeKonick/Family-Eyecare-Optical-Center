@@ -1,21 +1,22 @@
 .products-content {
-    display: flex;
-    justify-items: center;
+  padding-left: 10%;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
 }
+
 .products-items {
-    display: flex;
-  }
-  
-  
-  .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.74);
-    width: 300px;
-    margin: 8%;
-    color: rgb(0, 0, 0);
-    text-align: center;
-    font-family: "Poppins", sans-serif;
-    padding: 12px;
-  }
+  display: flex;
+  justify-content: center; /* Center items horizontally within each column */
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.74);
+  width: 80%; /* Adjust the width to fit within the grid columns */
+  color: rgb(0, 0, 0);
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  padding: 12px;
+}
   
   .price {
     color: rgb(0, 0, 0);
