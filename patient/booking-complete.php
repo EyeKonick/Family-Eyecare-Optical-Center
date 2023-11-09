@@ -2,26 +2,24 @@
 
     //learn from w3schools.com
 
-    session_start();
+session_start();
 
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
-            header("location: ../login.php");
-        }else{
-            $useremail=$_SESSION["user"];
-        }
+if(!$_SESSION['isLoggedIn']) {
+    header('location: ../login.php');
+}
 
-    }else{
-        header("location: ../login.php");
-    }
-    
+$useremail = $_SESSION['pemail'];
 
-    //import database
-    include("../connection.php");
-    $userrow = $database->query("select * from patient where pemail='$useremail'");
-    $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["pid"];
-    $username=$userfetch["pname"];
+//import database
+include("../connection.php");
+$userrow = $database->query("select * from patient where pemail='$useremail'");
+$userfetch=$userrow->fetch_assoc();
+$userid= $userfetch["pid"];
+$username=$userfetch["pname"];
+
+date_default_timezone_set('Asia/Kolkata');
+
+$today = date('Y-m-d');
 
 
     if($_POST){
