@@ -4,6 +4,21 @@ session_start();
 if(!$_SESSION['isLoggedIn']) {
     header('location: ../login.php');
 }
+
+try {
+    require_once('../db_conn.php');
+
+    $query = 'SELECT *
+                FROM tbl_products;';
+
+    $statement = $connection->prepare($query);
+
+    if($statement->execute()) {
+        $products = $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+} catch(PDOException $exception) {
+    echo $messageFailed = $exception->getMessage();
+}
 ?>
 
 <!DOCTYPE html>
@@ -175,10 +190,7 @@ if(!$_SESSION['isLoggedIn']) {
 
                                 
                                 echo $today;
-
-                                
-
-                        ?>
+                            ?>
                         </p>
                     </td>
                     <td width="10%">
@@ -191,113 +203,31 @@ if(!$_SESSION['isLoggedIn']) {
                 
                 <tr>
                     <td colspan="4" style="padding-top:10px;width: 100%;" >
+                        <?php if($_SESSION['message_success']): ?>
+                            Reservation successfully saved!
+                        <?php endif; ?>
                         <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)"><?php echo $searchtype." Sessions"."(".$result->num_rows.")"; ?> </p>
                         <p class="heading-main12" style="margin-left: 45px;font-size:22px;color:rgb(49, 49, 49)"><?php echo $q.$insertkey.$q ; ?> </p>
                     </td>
                     
                 </tr>
-
+                <?php foreach($products as $product): ?>
                 <tr>
                     <td colspan=4 class="products-content">
                         <div class="products-items">
                             <div class="card">
-                                <img src="../img/eyeglass1.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
-                            </div>
-                            <div class="card">
-                                <img src="../img/eyeglass2.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
-                            </div>
-                            <div class="card">
-                                <img src="../img/eyeglass3.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
-                            </div>
-                            <div class="card">
-                                <img src="../img/eyeglass3.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
-                            </div>
-                        </div>
-                    </td>
-                    <td colspan=4 class="products-content">
-                        <div class="products-items">
-                            <div class="card">
-                                <img src="../img/vitamins1.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
-                            </div>
-                            <div class="card">
-                                <img src="../img/vitamins2.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
-                            </div>
-                            <div class="card">
-                                <img src="../img/vitamins3.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
-                            </div>
-                            <div class="card">
-                                <img src="../img/eyeglass3.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
-                            </div>
-                        </div>
-                    </td>
-                    <td colspan=4 class="products-content">
-                        <div class="products-items">
-                            <div class="card">
-                                <img src="../img/vitamins1.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
-                            </div>
-                            <div class="card">
-                                <img src="../img/vitamins2.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
-                            </div>
-                            <div class="card">
-                                <img src="../img/vitamins3.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
-                            </div>
-                            <div class="card">
-                                <img src="../img/eyeglass3.jpg" alt="Denim Jeans" style="width:100%">
-                                <h1>EYEGLASS 1</h1>
-                                <p class="price">$350</p>
-                                <p>Some text about the glasses..</p>
-                                <p><button>RESERVE</button></p>
+                                <form action="../functions/Product.php" method="post">
+                                    <img src="../img/<?=$product->image?>" alt="Denim Jeans" style="width:100%">
+                                    <h1 name="eyeglass_one"><?=$product->name?></h1>
+                                    <p class="price" name="price">$<?=$product->price?></p>
+                                    <p name="description"><?=$product->description?></p>
+                                    <p><button value="<?=$product->product_id?>" name="btn_reserve">RESERVE</button></p>
+                                </form>
                             </div>
                         </div>
                     </td>
                 </tr>
-
-                
-                
+                <?php endforeach; ?>
             </table>
         </div>
     </div>

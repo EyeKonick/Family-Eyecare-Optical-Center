@@ -46,6 +46,8 @@ if(isset($_POST['btn_login'])) {
 
                 $_SESSION['isLoggedIn'] = true;
 
+                $_SESSION['message_success'] = '';
+
                 header('location: ../patient/index.php');
                 // header('location: ../admin/index.php');
             } else {
