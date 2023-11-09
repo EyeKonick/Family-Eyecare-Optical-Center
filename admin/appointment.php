@@ -2,7 +2,7 @@
 session_start();
 
 if(!$_SESSION['isLoggedIn']) {
-    header('../login.php');
+    header('location: ../login.php');
 }
 
 
