@@ -49,7 +49,7 @@
     //echo $username;
 
 
-    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid ";
+    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate,appointment.service,appointment.product from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid ";
 
     if($_POST){
         //print_r($_POST);
@@ -254,9 +254,13 @@
                                             $docname=$row["docname"];
                                             $scheduledate=$row["scheduledate"];
                                             $scheduletime=$row["scheduletime"];
+                                            $service_type=$row["service"];
                                             $apponum=$row["apponum"];
                                             $appodate=$row["appodate"];
                                             $appoid=$row["appoid"];
+                                            $product_id = $row["product"];
+                                            
+                                            $product = $database->query("SELECT * FROM products WHERE id = $product_id")->fetch_assoc();
     
                                             if($scheduleid==""){
                                                 break;
@@ -281,10 +285,10 @@
                                                                     '.substr($docname,0,30).'
                                                                 </div>
                                                                 <div class="h4-search">
-                                                                    Service: "NONE"
+                                                                    Service: '. $service_type .'
                                                                 </div>
                                                                 <div class="h4-search">
-                                                                    Reserve Item: "NONE"
+                                                                    Reserve Item: '. $product["name"] .'
                                                                 </div>
                                                                 
                                                                 

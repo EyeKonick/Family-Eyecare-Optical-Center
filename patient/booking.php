@@ -131,10 +131,6 @@
                                             $list11 = $database->query("select DISTINCT * from  doctor;");
                                             $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
                                             
-
-                                            
-
-
                                             for ($y=0;$y<$list11->num_rows;$y++){
                                                 $row00=$list11->fetch_assoc();
                                                 $d=$row00["docname"];
@@ -202,17 +198,13 @@
                             <?php
                             
                             if(($_GET)){
-                                
-                                
                                 if(isset($_GET["id"])){
-                                    
-
                                     $id=$_GET["id"];
 
                                     $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduleid=$id  order by schedule.scheduledate desc";
 
                                     //echo $sqlmain;
-                                    $result= $database->query($sqlmain);
+                                    $result=$database->query($sqlmain);
                                     $row=$result->fetch_assoc();
                                     $scheduleid=$row["scheduleid"];
                                     $title=$row["title"];
@@ -230,11 +222,7 @@
                                             <input type="hidden" name="scheduleid" value="'.$scheduleid.'" >
                                             <input type="hidden" name="apponum" value="'.$apponum.'" >
                                             <input type="hidden" name="date" value="'.$today.'" >
-
-                                        
-                                    
                                     ';
-                                     
 
                                     echo '
                                     <td style="width: 50%;" rowspan="2">
@@ -252,19 +240,14 @@
                                                           
                                                         </div><br>
                                                         <div class="h3-search" style="font-size:18px;">
-                                                            <select name="book-services" id="" style="font-size:18px;">
+                                                            <select name="book-services" id="book-services" style="font-size:18px;">
                                                                 <option value="" disabled selected hidden>CHOOSE SERVICES</option>
-                                                                <option value="service-1">FOLLOW-UP CHECKUP</option>
-                                                                <option value="service-2">COMPREHENSIVE EYE EXAMINATION</option>
-                                                                <option value="service-3">GLAUCOMA ASSESSEMENT</option>
-                                                                <option value="service-4>CATARACT ASSESSEMENT</option>
-                                                                <option value="service-5">MACULAR DEGENERATION ASSESSMENT</option>
-                                                                <option value="service-6">DIABETIC VISION ASSESSMENT</option>
-                                                                <option value="service-7">EYE REFRACTION AND VISION MANAGEMENT</option>
-                                                                <option value="service-8">VISUAL TRAINING AND DEVELOPMENT</option>
-                                                            </select><br>
+                                                                <option value="FOLLOW-UP CHECKUP">FOLLOW-UP CHECKUP</option>
+                                                                <option value="COMPREHENSIVE EYE EXAMINATION">COMPREHENSIVE EYE EXAMINATION</option>
+                                                            </select>
+                                                            <br>
                                                             Session Title: '.$title.'<br>
-                                                            Reserve Item:<br>
+                                                            Reserved Item: '. $_GET["item-name"] .' <br>
                                                             Session Scheduled Date: '.$scheduledate.'<br>
                                                             Session Starts : '.$scheduletime.'<br>
                                                             Channeling fee : <b>₱ 2 000.00</b>
@@ -276,9 +259,7 @@
                                                         
                                             </div>
                                         </td>
-                                        
-                                        
-                                        
+                                        <input type="hidden" name="product-id" value="' . $_GET["item-id"]. '">
                                         <td style="width: 25%;">
                                             <div  class="dashboard-items search-items"  >
                                             
@@ -302,21 +283,12 @@
                                         <tr>
                                             <td>
                                                 <input type="Submit" class="login-btn btn-primary btn btn-book" style="margin-left:10px;padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;width:95%;text-align: center;" value="Book now" name="booknow"></button>
-                                            </form>
                                             </td>
                                         </tr>
+                                            </form>
                                         '; 
-                                        
-
-
-
-
                                 }
-
-
-
                             }
-                            
                             ?>
  
                             </tbody>
