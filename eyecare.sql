@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 06, 2023 at 03:04 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.0.25
+-- Host: 127.0.0.1:3307
+-- Generation Time: Nov 10, 2023 at 03:16 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -95,14 +95,14 @@ INSERT INTO `doctor` (`docid`, `docemail`, `docname`, `docpassword`, `docnic`, `
 
 CREATE TABLE `patient` (
   `pid` int(11) NOT NULL,
-  `pemail` varchar(255) DEFAULT NULL,
-  `pname` varchar(255) DEFAULT NULL,
-  `ppassword` varchar(255) DEFAULT NULL,
+  `pemail` varchar(55) DEFAULT NULL,
+  `pname` varchar(55) DEFAULT NULL,
+  `ppassword` varchar(55) DEFAULT NULL,
   `paddress` varchar(255) DEFAULT NULL,
-  `pnic` varchar(15) DEFAULT NULL,
+  `pnic` varchar(55) DEFAULT NULL,
   `pdob` date DEFAULT NULL,
-  `ptel` varchar(15) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `ptel` varchar(55) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `patient`
@@ -132,7 +132,8 @@ CREATE TABLE `schedule` (
 --
 
 INSERT INTO `schedule` (`scheduleid`, `docid`, `title`, `scheduledate`, `scheduletime`, `nop`) VALUES
-(9, '2', 'Mambusao Branch', '2023-11-06', '07:00:00', 8);
+(9, '2', 'Mambusao Branch', '2023-11-06', '07:00:00', 8),
+(10, '2', 'testing session tonight', '2023-11-30', '09:00:00', 23);
 
 -- --------------------------------------------------------
 
@@ -210,6 +211,76 @@ INSERT INTO `specialties` (`id`, `sname`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_products`
+--
+
+CREATE TABLE `tbl_products` (
+  `product_id` int(11) NOT NULL,
+  `image` varchar(55) DEFAULT NULL,
+  `name` varchar(55) NOT NULL,
+  `price` double NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_products`
+--
+
+INSERT INTO `tbl_products` (`product_id`, `image`, `name`, `price`, `description`) VALUES
+(1, 'eyeglass1.jpg', 'EYEGLASS 1', 350, 'Some text of the glass'),
+(2, 'eyeglass2.jpg', 'EYEGLASS 2', 450, 'Some text of the glass'),
+(3, 'eyeglass3.jpg', 'EYEGLASS 3', 550, 'Some text of the glass'),
+(4, 'vitamins3.jpg', 'EYEGLASS 4', 650, 'Some text of the glass'),
+(5, 'vitamins1.jpg', 'EYEGLASS 5', 750, 'Some text of the glass'),
+(6, 'vitamins2.jpg', 'EYEGLASS 6', 850, 'Some text of the glass');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_reservations`
+--
+
+CREATE TABLE `tbl_reservations` (
+  `reservation_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `patient_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_reservations`
+--
+
+INSERT INTO `tbl_reservations` (`reservation_id`, `product_id`, `patient_id`) VALUES
+(1, 1, 1),
+(2, 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_services`
+--
+
+CREATE TABLE `tbl_services` (
+  `service_id` int(11) NOT NULL,
+  `service_name` varchar(55) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_services`
+--
+
+INSERT INTO `tbl_services` (`service_id`, `service_name`) VALUES
+(1, 'FOLLOW-UP CHECKUP'),
+(2, 'COMPREHENSIVE EYE EXAMINATION'),
+(3, 'GLAUCOMA ASSESSMENT'),
+(4, 'MACULAR DEGENERATION ASSESSMENT'),
+(5, 'DIABETIC VISION ASSESSMENT'),
+(6, 'EYE REFRACTION AND VISION MANAGEMENT'),
+(7, 'VISUAL TRAINING AND DEVELOPMENT');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `webuser`
 --
 
@@ -274,6 +345,26 @@ ALTER TABLE `specialties`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_products`
+--
+ALTER TABLE `tbl_products`
+  ADD PRIMARY KEY (`product_id`);
+
+--
+-- Indexes for table `tbl_reservations`
+--
+ALTER TABLE `tbl_reservations`
+  ADD PRIMARY KEY (`reservation_id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `patient_id` (`patient_id`);
+
+--
+-- Indexes for table `tbl_services`
+--
+ALTER TABLE `tbl_services`
+  ADD PRIMARY KEY (`service_id`);
+
+--
 -- Indexes for table `webuser`
 --
 ALTER TABLE `webuser`
@@ -305,7 +396,36 @@ ALTER TABLE `patient`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `scheduleid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `scheduleid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `tbl_products`
+--
+ALTER TABLE `tbl_products`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `tbl_reservations`
+--
+ALTER TABLE `tbl_reservations`
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tbl_services`
+--
+ALTER TABLE `tbl_services`
+  MODIFY `service_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tbl_reservations`
+--
+ALTER TABLE `tbl_reservations`
+  ADD CONSTRAINT `tbl_reservations_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_reservations_ibfk_2` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`pid`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
