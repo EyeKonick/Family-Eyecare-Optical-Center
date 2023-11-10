@@ -260,10 +260,19 @@
                                             $appoid=$row["appoid"];
                                             $product_id = $row["product"];
                                             
-                                            $product = $database->query("SELECT * FROM products WHERE id = $product_id")->fetch_assoc();
+                                            if (isset($row["product"])) {
+                                                $product = $database->query("SELECT * FROM products WHERE id = $product_id")->fetch_assoc();
+                                            }
     
                                             if($scheduleid==""){
                                                 break;
+                                            }
+
+                                            if (isset($product["name"])) {
+                                                $display = $product["name"]; 
+                                                echo "";
+                                            } else {
+                                                $display = "None";
                                             }
     
                                             echo '
@@ -288,7 +297,7 @@
                                                                     Service: '. $service_type .'
                                                                 </div>
                                                                 <div class="h4-search">
-                                                                    Reserve Item: '. $product["name"] .'
+                                                                    Reserve Item: '. $display .'
                                                                 </div>
                                                                 
                                                                 

@@ -30,10 +30,14 @@
             $scheduleid=$_POST["scheduleid"];
             $date=$_POST["date"];
             $service_type = $_POST["book-services"];
-            $product_id = $_POST["product-id"];
 
             $scheduleid=$_POST["scheduleid"];
-            $sql2="insert into appointment(pid,apponum,scheduleid,appodate,service,product) values ($userid,$apponum,$scheduleid,'$date','$service_type', '$product_id')";
+            if (isset($_POST["product-id"])) {
+                $product_id = $_POST["product-id"];
+                $sql2="insert into appointment(pid,apponum,scheduleid,appodate,service,product) values ($userid,$apponum,$scheduleid,'$date','$service_type', '$product_id')";
+            } else {
+                $sql2="insert into appointment(pid,apponum,scheduleid,appodate,service) values ($userid,$apponum,$scheduleid,'$date','$service_type')";
+            }
             $result= $database->query($sql2);
             //echo $apponom;
             header("location: appointment.php?action=booking-added&id=".$apponum."&titleget=none");

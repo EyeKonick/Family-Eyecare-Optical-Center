@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 10, 2023 at 04:17 PM
+-- Generation Time: Nov 10, 2023 at 05:12 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -51,8 +51,8 @@ CREATE TABLE `appointment` (
   `apponum` int(3) DEFAULT NULL,
   `scheduleid` int(10) DEFAULT NULL,
   `appodate` date DEFAULT NULL,
-  `service` enum('FOLLOW-UP CHECKUP','COMPREHENSIVE EYE EXAMINATION','OTHER') DEFAULT NULL,
-  `product` int(11) NOT NULL
+  `service` enum('FOLLOW-UP CHECKUP','COMPREHENSIVE EYE EXAMINATION','GLAUCOMA ASSESSMENT','CATARACT ASSESSMENT','MACULAR DEGENRATION ASSESSMENT','DIABETIC VISION ASSESSMENT','EYE REFRACTION AND VISION MANAGEMENT','VISUAL TRAINING AND DEVELOPMENT') DEFAULT NULL,
+  `product` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -60,8 +60,9 @@ CREATE TABLE `appointment` (
 --
 
 INSERT INTO `appointment` (`appoid`, `pid`, `apponum`, `scheduleid`, `appodate`, `service`, `product`) VALUES
-(17, 1, 2, 10, '2023-11-10', 'COMPREHENSIVE EYE EXAMINATION', 6),
-(16, 1, 1, 10, '2023-11-10', 'COMPREHENSIVE EYE EXAMINATION', 1);
+(25, 1, 3, 10, '2023-11-10', 'MACULAR DEGENRATION ASSESSMENT', NULL),
+(24, 1, 2, 10, '2023-11-10', 'MACULAR DEGENRATION ASSESSMENT', NULL),
+(23, 1, 1, 10, '2023-11-10', 'MACULAR DEGENRATION ASSESSMENT', 1);
 
 -- --------------------------------------------------------
 
@@ -325,7 +326,7 @@ ALTER TABLE `webuser`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `appoid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `appoid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `doctor`

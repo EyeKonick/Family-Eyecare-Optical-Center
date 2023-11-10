@@ -224,6 +224,12 @@
                                             <input type="hidden" name="date" value="'.$today.'" >
                                     ';
 
+                                    if (isset($_GET["item-id"])) {
+                                        $display = '<input type=\"hidden\" name=\"product-id\" value=\"'. $_GET["item-id"] . '\">';
+                                    } else {
+                                        $display = "";
+                                    }
+
                                     echo '
                                     <td style="width: 50%;" rowspan="2">
                                             <div  class="dashboard-items search-items"  >
@@ -243,7 +249,12 @@
                                                             <select name="book-services" id="book-services" style="font-size:18px;">
                                                                 <option value="" disabled selected hidden>CHOOSE SERVICES</option>
                                                                 <option value="FOLLOW-UP CHECKUP">FOLLOW-UP CHECKUP</option>
-                                                                <option value="COMPREHENSIVE EYE EXAMINATION">COMPREHENSIVE EYE EXAMINATION</option>
+                                                                <option value="GLAUCOMA ASSESSMENT">GLAUCOMA ASSESSMENT</option>
+                                                                 <option value="CATARACT ASSESSMENT">CATARACT ASSESSMENT</option>
+                                                                <option value="MACULAR DEGENRATION ASSESSMENT">MACULAR DEGENRATION ASSESSMENT</option>
+                                                                <option value="DIABETIC VISION ASSESSMENT">DIABETIC VISION ASSESSMENT</option>
+                                                                <option value="EYE REFRACTION AND VISION MANAGEMENT">EYE REFRACTION AND VISION MANAGEMENT</option>
+                                                                <option value="VISUAL TRAINING AND DEVELOPMENT">VISUAL TRAINING AND DEVELOPMENT</option>
                                                             </select>
                                                             <br>
                                                             Session Title: '.$title.'<br>
@@ -259,7 +270,7 @@
                                                         
                                             </div>
                                         </td>
-                                        <input type="hidden" name="product-id" value="' . $_GET["item-id"]. '">
+                                        '.$display.'
                                         <td style="width: 25%;">
                                             <div  class="dashboard-items search-items"  >
                                             
