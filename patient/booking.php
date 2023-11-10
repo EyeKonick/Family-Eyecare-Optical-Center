@@ -1,3 +1,66 @@
+<?php
+session_start();
+
+if(!$_SESSION['isLoggedIn']) {
+    header('location: ../login.php');
+}
+
+$useremail = $_SESSION['pemail'];
+
+//import database
+include("../connection.php");
+$userrow = $database->query("select * from patient where pemail='$useremail'");
+$userfetch=$userrow->fetch_assoc();
+$userid= $userfetch["pid"];
+$username=$userfetch["pname"];
+
+try {
+    require_once('../db_conn.php');
+
+    function validate($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+
+        return $data;
+    }
+
+    $patientId = validate($_SESSION['pid']);
+
+    $query = 'SELECT * FROM patient AS p
+                INNER JOIN tbl_reservations AS r ON p.pid = r.patient_id
+                INNER JOIN tbl_products AS pr ON r.product_id = pr.product_id
+                WHERE p.pid = :patient_id;';
+    
+    $statement = $connection->prepare($query);
+    $statement->bindParam('patient_id', $patientId, PDO::PARAM_INT);
+    if($statement->execute()) {
+        $reservedItem = $statement->fetch(PDO::FETCH_OBJ);
+    }
+} catch(PDOException $exception) {
+    echo $messageFailed = $exception->getMessage();
+}
+
+try {
+    require_once('../db_conn.php');
+
+    $query = 'SELECT *
+                FROM tbl_services
+                ORDER BY `service_name` ASC;';
+    
+    $statement = $connection->prepare($query);
+
+    if($statement->execute()) {
+        $services = $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+} catch(PDOException $exception) {
+    echo $messageFailed = $exception->getMessage();
+}
+
+date_default_timezone_set('Asia/Kolkata');
+
+$today = date('Y-m-d');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,68 +82,30 @@
 </style>
 </head>
 <body>
-    <?php
-
-    //learn from w3schools.com
-
-    session_start();
-
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
-            header("location: ../login.php");
-        }else{
-            $useremail=$_SESSION["user"];
-        }
-
-    }else{
-        header("location: ../login.php");
-    }
-    
-
-    //import database
-    include("../connection.php");
-    $userrow = $database->query("select * from patient where pemail='$useremail'");
-    $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["pid"];
-    $username=$userfetch["pname"];
-
-
-    //echo $userid;
-    //echo $username;
-    
-
-
-    date_default_timezone_set('Asia/Kolkata');
-
-    $today = date('Y-m-d');
-
-
- //echo $userid;
- ?>
- <div class="container">
-     <div class="menu">
-     <table class="menu-container" border="0">
-             <tr>
-                 <td style="padding:10px" colspan="2">
-                     <table border="0" class="profile-container">
-                         <tr>
-                             <td width="30%" style="padding-left:20px" >
-                                 <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
-                             </td>
-                             <td style="padding:0px;margin:0px;">
-                                 <p class="profile-title"><?php echo substr($username,0,13)  ?>..</p>
-                                 <p class="profile-subtitle"><?php echo substr($useremail,0,22)  ?></p>
-                             </td>
-                         </tr>
-                         <tr>
-                             <td colspan="2">
-                                 <a href="../logout.php" ><input type="button" value="Log out" class="logout-btn btn-primary-soft btn"></a>
-                             </td>
-                         </tr>
-                 </table>
-                 </td>
-             </tr>
-             <tr class="menu-row" >
+    <div class="container">
+        <div class="menu">
+            <table class="menu-container" border="0">
+                <tr>
+                    <td style="padding:10px" colspan="2">
+                        <table border="0" class="profile-container">
+                            <tr>
+                                <td width="30%" style="padding-left:20px" >
+                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
+                                </td>
+                                <td style="padding:0px;margin:0px;">
+                                    <p class="profile-title"><?php echo $_SESSION['pname'];  ?>..</p>
+                                    <p class="profile-subtitle"><?php echo $_SESSION['pemail'];  ?></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="../logout.php" ><input type="button" value="Log out" class="logout-btn btn-primary-soft btn"></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr class="menu-row" >
                     <td class="menu-btn menu-icon-home " >
                         <a href="index.php" class="non-style-link-menu "><div><p class="menu-text">Home</p></a></div></a>
                     </td>
@@ -111,15 +136,13 @@
                         <a href="settings.php" class="non-style-link-menu"><div><p class="menu-text">Settings</p></a></div>
                     </td>
                 </tr>
-                
             </table>
         </div>
-        
         <div class="dash-body">
             <table border="0" width="100%" style=" border-spacing: 0;margin:0;padding:0;margin-top:25px; ">
                 <tr >
                     <td width="13%" >
-                    <a href="schedule.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
+                        <a href="schedule.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
                     </td>
                     <td >
                             <form action="schedule.php" method="post" class="header-search">
@@ -150,43 +173,47 @@
                                         echo ' </datalist>';
             ?>
                                         
+                        <?php
+                            echo '<datalist id="doctors">';
+                            $list11 = $database->query("select DISTINCT * from  doctor;");
+                            $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
+        
+                            for ($y=0;$y<$list11->num_rows;$y++){
+                                $row00=$list11->fetch_assoc();
+                                $d=$row00["docname"];
                                 
-                                        <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                                        </form>
+                                echo "<option value='$d'><br/>";
+                                
+                            };
+
+                            for ($y=0;$y<$list12->num_rows;$y++){
+                                $row00=$list12->fetch_assoc();
+                                $d=$row00["title"];
+                                
+                                echo "<option value='$d'><br/>";
+                            };
+                        echo ' </datalist>';
+                        ?>
+                        <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
+                        </form>
                     </td>
                     <td width="15%">
                         <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
                             Today's Date
                         </p>
                         <p class="heading-sub12" style="padding: 0;margin: 0;">
-                            <?php 
-
-                                
-                                echo $today;
-
-                                
-
-                        ?>
+                            <?php echo $today; ?>
                         </p>
                     </td>
                     <td width="10%">
                         <button  class="btn-label"  style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
                     </td>
-
-
                 </tr>
-                
-                
                 <tr>
                     <td colspan="4" style="padding-top:10px;width: 100%;" >
                         <!-- <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49);font-weight:400;">Scheduled Sessions / Booking / <b>Review Booking</b></p> -->
-                        
                     </td>
-                    
                 </tr>
-                
-                
-                
                 <tr>
                    <td colspan="4">
                        <center>
@@ -256,27 +283,41 @@
                                                         <br>
                                                         
                                                 </div>
-                                                        
+                                                <div class="h3-search" style="font-size:18px;">
+                                                
+                                                </div><br>
+                                                <div class="h3-search" style="font-size:18px;">
+                                                    <select name="book-services" id="" style="font-size:18px;">
+                                                        <option value="" disabled selected hidden>CHOOSE SERVICES</option>
+                                                        <?php foreach($services as $service): ?>
+                                                            <option value="<?=$service->service_id?>"><?=$service->service_name?></option>
+                                                        <?php endforeach; ?>
+                                                    </select><br>
+                                                    Session Title: <?php echo $title; ?><br>
+                                                    Reserve Item: <?=$reservedItem->name?> <br>
+                                                    Session Scheduled Date: <?php echo $scheduledate; ?><br>
+                                                    Session Starts : <?php echo $scheduletime; ?><br>
+                                                    Channeling fee : <b>₱ 2 000.00</b>
+                                                </div>
+                                                <br>
                                             </div>
                                         </td>
                                         <input type="hidden" name="product-id" value="' . $_GET["item-id"]. '">
                                         <td style="width: 25%;">
                                             <div  class="dashboard-items search-items"  >
-                                            
                                                 <div style="width:100%;padding-top: 15px;padding-bottom: 15px;">
                                                         <div class="h1-search" style="font-size:20px;line-height: 35px;margin-left:8px;text-align:center;">
                                                             Your Appointment Number
                                                         </div>
                                                         <center>
-                                                        <div class=" dashboard-icons" style="margin-left: 0px;width:90%;font-size:70px;font-weight:800;text-align:center;color:var(--btnnictext);background-color: var(--btnice)">'.$apponum.'</div>
-                                                    </center>
-                                                       
+                                                            <div class=" dashboard-icons" style="margin-left: 0px;width:90%;font-size:70px;font-weight:800;text-align:center;color:var(--btnnictext);background-color: var(--btnice)"><?php echo $apponum; ?></div>
+                                                        </center>
+                                                    
                                                         </div><br>
                                                         
                                                         <br>
                                                         <br>
-                                                </div>
-                                                        
+                                                </div>        
                                             </div>
                                         </td>
                                         </tr>
@@ -297,17 +338,10 @@
                         </div>
                         </center>
                    </td> 
-                </tr>
-                       
-                        
-                    
+                </tr>          
             </table>
         </div>
     </div>
-    
-    
-   
     </div>
-
 </body>
 </html>

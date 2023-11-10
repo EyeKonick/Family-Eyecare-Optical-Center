@@ -14,107 +14,6 @@
     
 </head>
 <body>
-    <?php
-
-    //learn from w3schools.com
-    //Unset all the server side variables
-
-    session_start();
-
-    $_SESSION["user"]="";
-    $_SESSION["usertype"]="";
-    
-    // Set the new timezone
-    date_default_timezone_set('Asia/Kolkata');
-    $date = date('Y-m-d');
-
-    $_SESSION["date"]=$date;
-    
-
-    //import database
-    include("connection.php");
-
-    
-
-
-
-    if($_POST){
-
-        $email=$_POST['useremail'];
-        $password=$_POST['userpassword'];
-        
-        $error='<label for="promter" class="form-label"></label>';
-
-        $result= $database->query("select * from webuser where email='$email'");
-        if($result->num_rows==1){
-            $utype=$result->fetch_assoc()['usertype'];
-            if ($utype=='p'){
-                $checker = $database->query("select * from patient where pemail='$email' and ppassword='$password'");
-                if ($checker->num_rows==1){
-
-
-                    //   Patient dashbord
-                    $_SESSION['user']=$email;
-                    $_SESSION['usertype']='p';
-                    
-                    header('location: patient/index.php');
-
-                }else{
-                    $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
-                }
-
-            }elseif($utype=='a'){
-                $checker = $database->query("select * from admin where aemail='$email' and apassword='$password'");
-                if ($checker->num_rows==1){
-
-
-                    //   Admin dashbord
-                    $_SESSION['user']=$email;
-                    $_SESSION['usertype']='a';
-                    
-                    header('location: admin/index.php');
-
-                }else{
-                    $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
-                }
-
-
-            }elseif($utype=='d'){
-                $checker = $database->query("select * from doctor where docemail='$email' and docpassword='$password'");
-                if ($checker->num_rows==1){
-
-
-                    //   doctor dashbord
-                    $_SESSION['user']=$email;
-                    $_SESSION['usertype']='d';
-                    header('location: doctor/index.php');
-
-                }else{
-                    $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Wrong credentials: Invalid email or password</label>';
-                }
-
-            }
-            
-        }else{
-            $error='<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">We cant found any acount for this email.</label>';
-        }
-
-
-
-
-
-
-        
-    }else{
-        $error='<label for="promter" class="form-label">&nbsp;</label>';
-    }
-
-    ?>
-
-
-
-
-
     <center>
     <div class="container">
         <table border="0" style="margin: 0;padding: 0;width: 60%;">
@@ -130,7 +29,7 @@
                 </td>
             </tr>
             <tr>
-                <form action="" method="POST" >
+                <form action="functions/User.php" method="post">
                 <td class="label-td">
                     <label for="useremail" class="form-label">Email: </label>
                 </td>
@@ -155,13 +54,15 @@
 
             <tr>
                 <td><br>
-                <?php echo $error ?>
+                
                 </td>
             </tr>
 
             <tr>
                 <td>
-                    <input type="submit" value="Login" class="login-btn btn-primary btn">
+                    
+                        <input type="submit" value="Login" class="login-btn btn-primary btn" name="btn_login">
+                    </form>
                 </td>
             </tr>
         </div>

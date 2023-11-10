@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if(!$_SESSION['isLoggedIn']) {
+    header('location: ../login.php');
+}
+
+
+//import database
+include("../connection.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,6 +33,7 @@
 </head>
 
 <body>
+<<<<<<< HEAD
     <?php
 
     //learn from w3schools.com
@@ -43,6 +55,8 @@
 
 
     ?>
+=======
+>>>>>>> main
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">

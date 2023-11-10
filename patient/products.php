@@ -1,3 +1,26 @@
+<?php
+session_start();
+
+if(!$_SESSION['isLoggedIn']) {
+    header('location: ../login.php');
+}
+
+try {
+    require_once('../db_conn.php');
+
+    $query = 'SELECT *
+                FROM tbl_products;';
+
+    $statement = $connection->prepare($query);
+
+    if($statement->execute()) {
+        $products = $statement->fetchAll(PDO::FETCH_OBJ);
+    }
+} catch(PDOException $exception) {
+    echo $messageFailed = $exception->getMessage();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

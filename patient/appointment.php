@@ -1,3 +1,49 @@
+<?php
+session_start();
+
+if(!$_SESSION['isLoggedIn']) {
+    header('location: ../login.php');
+}
+
+$useremail = $_SESSION['pemail'];
+
+//import database
+include("../connection.php");
+$userrow = $database->query("select * from patient where pemail='$useremail'");
+$userfetch=$userrow->fetch_assoc();
+$userid= $userfetch["pid"];
+$username=$userfetch["pname"];
+
+date_default_timezone_set('Asia/Kolkata');
+
+$today = date('Y-m-d');
+
+//echo $userid;
+//echo $username;
+
+
+$sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid ";
+
+if($_POST){
+    //print_r($_POST);
+    
+
+
+    
+    if(!empty($_POST["sheduledate"])){
+        $sheduledate=$_POST["sheduledate"];
+        $sqlmain.=" and schedule.scheduledate='$sheduledate' ";
+    };
+
+
+
+    //echo $sqlmain;
+
+}
+
+$sqlmain.="order by appointment.appodate  asc";
+$result= $database->query($sqlmain);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
