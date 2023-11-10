@@ -145,8 +145,33 @@ $today = date('Y-m-d');
                         <a href="schedule.php" ><button  class="login-btn btn-primary-soft btn btn-icon-back"  style="padding-top:11px;padding-bottom:11px;margin-left:20px;width:125px"><font class="tn-in-text">Back</font></button></a>
                     </td>
                     <td >
-                        <form action="schedule.php" method="post" class="header-search">
-                        <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Doctor name or Email or Date (YYYY-MM-DD)" list="doctors" >&nbsp;&nbsp;
+                            <form action="schedule.php" method="post" class="header-search">
+
+                                        <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Doctor name or Email or Date (YYYY-MM-DD)" list="doctors" >&nbsp;&nbsp;
+                                        
+                                        <?php
+                                            echo '<datalist id="doctors">';
+                                            $list11 = $database->query("select DISTINCT * from  doctor;");
+                                            $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
+                                            
+                                            for ($y=0;$y<$list11->num_rows;$y++){
+                                                $row00=$list11->fetch_assoc();
+                                                $d=$row00["docname"];
+                                               
+                                                echo "<option value='$d'><br/>";
+                                               
+                                            };
+
+
+                                            for ($y=0;$y<$list12->num_rows;$y++){
+                                                $row00=$list12->fetch_assoc();
+                                                $d=$row00["title"];
+                                               
+                                                echo "<option value='$d'><br/>";
+                                                                                         };
+
+                                        echo ' </datalist>';
+            ?>
                                         
                         <?php
                             echo '<datalist id="doctors">';
@@ -194,42 +219,69 @@ $today = date('Y-m-d');
                        <center>
                         <div class="abc scroll">
                         <table width="100%" class="sub-table scrolldown" border="0" style="padding: 50px;border:none">
-                            <tbody>
-                                <?php
-                                if(($_GET)){
-                                    if(isset($_GET["id"])){
-                                        $id=$_GET["id"];
-                                        $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduleid=$id  order by schedule.scheduledate desc";
+                            
+                        <tbody>
+                        
+                            <?php
+                            
+                            if(($_GET)){
+                                if(isset($_GET["id"])){
+                                    $id=$_GET["id"];
 
-                                        //echo $sqlmain;
-                                        $result= $database->query($sqlmain);
-                                        $row=$result->fetch_assoc();
-                                        $scheduleid=$row["scheduleid"];
-                                        $title=$row["title"];
-                                        $docname=$row["docname"];
-                                        $docemail=$row["docemail"];
-                                        $scheduledate=$row["scheduledate"];
-                                        $scheduletime=$row["scheduletime"];
-                                        $sql2="select * from appointment where scheduleid=$id";
-                                        //echo $sql2;
-                                        $result12= $database->query($sql2);
-                                        $apponum=($result12->num_rows)+1;
-                                    }
-                                }
-                                ?>
-                                <form action="booking-complete.php" method="post">
-                                <input type="hidden" name="scheduleid" value="<?php echo $scheduleid; ?>" >
-                                <input type="hidden" name="apponum" value="<?php echo $apponum; ?>" >
-                                <input type="hidden" name="date" value="'<?php echo $today; ?>" >
-                                <td style="width: 50%;" rowspan="2">
-                                        <div  class="dashboard-items search-items" >
-                                            <div style="width:100%">
-                                                <div class="h1-search" style="font-size:25px;">
-                                                    Session Details
-                                                </div><br><br>
-                                                <div class="h3-search" style="font-size:18px;line-height:30px">
-                                                    Doctor name:  &nbsp;&nbsp;<b><?php echo $docname; ?></b><br>
-                                                    Doctor Email:  &nbsp;&nbsp;<b><?php echo $docemail; ?></b> 
+                                    $sqlmain= "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduleid=$id  order by schedule.scheduledate desc";
+
+                                    //echo $sqlmain;
+                                    $result=$database->query($sqlmain);
+                                    $row=$result->fetch_assoc();
+                                    $scheduleid=$row["scheduleid"];
+                                    $title=$row["title"];
+                                    $docname=$row["docname"];
+                                    $docemail=$row["docemail"];
+                                    $scheduledate=$row["scheduledate"];
+                                    $scheduletime=$row["scheduletime"];
+                                    $sql2="select * from appointment where scheduleid=$id";
+                                    //echo $sql2;
+                                     $result12= $database->query($sql2);
+                                     $apponum=($result12->num_rows)+1;
+                                    
+                                    echo '
+                                        <form action="booking-complete.php" method="post">
+                                            <input type="hidden" name="scheduleid" value="'.$scheduleid.'" >
+                                            <input type="hidden" name="apponum" value="'.$apponum.'" >
+                                            <input type="hidden" name="date" value="'.$today.'" >
+                                    ';
+
+                                    echo '
+                                    <td style="width: 50%;" rowspan="2">
+                                            <div  class="dashboard-items search-items"  >
+                                            
+                                                <div style="width:100%">
+                                                        <div class="h1-search" style="font-size:25px;">
+                                                            Session Details
+                                                        </div><br><br>
+                                                        <div class="h3-search" style="font-size:18px;line-height:30px">
+                                                            Doctor name:  &nbsp;&nbsp;<b>'.$docname.'</b><br>
+                                                            Doctor Email:  &nbsp;&nbsp;<b>'.$docemail.'</b> 
+                                                        </div>
+                                                        <div class="h3-search" style="font-size:18px;">
+                                                          
+                                                        </div><br>
+                                                        <div class="h3-search" style="font-size:18px;">
+                                                            <select name="book-services" id="book-services" style="font-size:18px;">
+                                                                <option value="" disabled selected hidden>CHOOSE SERVICES</option>
+                                                                <option value="FOLLOW-UP CHECKUP">FOLLOW-UP CHECKUP</option>
+                                                                <option value="COMPREHENSIVE EYE EXAMINATION">COMPREHENSIVE EYE EXAMINATION</option>
+                                                            </select>
+                                                            <br>
+                                                            Session Title: '.$title.'<br>
+                                                            Reserved Item: '. $_GET["item-name"] .' <br>
+                                                            Session Scheduled Date: '.$scheduledate.'<br>
+                                                            Session Starts : '.$scheduletime.'<br>
+                                                            Channeling fee : <b>₱ 2 000.00</b>
+
+                                                        </div>
+                                                        <br>
+                                                        
                                                 </div>
                                                 <div class="h3-search" style="font-size:18px;">
                                                 
@@ -249,9 +301,8 @@ $today = date('Y-m-d');
                                                 </div>
                                                 <br>
                                             </div>
-                                                    
-                                        </div>
-                                    </td>    
+                                        </td>
+                                        <input type="hidden" name="product-id" value="' . $_GET["item-id"]. '">
                                         <td style="width: 25%;">
                                             <div  class="dashboard-items search-items"  >
                                                 <div style="width:100%;padding-top: 15px;padding-bottom: 15px;">
@@ -269,14 +320,20 @@ $today = date('Y-m-d');
                                                 </div>        
                                             </div>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <input type="Submit" class="login-btn btn-primary btn btn-book" style="margin-left:10px;padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;width:95%;text-align: center;" value="Book now" name="booknow"></button>
-                                        </form>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="Submit" class="login-btn btn-primary btn btn-book" style="margin-left:10px;padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;width:95%;text-align: center;" value="Book now" name="booknow"></button>
+                                            </td>
+                                        </tr>
+                                            </form>
+                                        '; 
+                                }
+                            }
+                            ?>
+ 
+                            </tbody>
+
                         </table>
                         </div>
                         </center>

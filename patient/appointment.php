@@ -65,6 +65,58 @@ $result= $database->query($sqlmain);
 </style>
 </head>
 <body>
+    <?php
+
+    //learn from w3schools.com
+
+    session_start();
+
+    if(isset($_SESSION["user"])){
+        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='p'){
+            header("location: ../login.php");
+        }else{
+            $useremail=$_SESSION["user"];
+        }
+
+    }else{
+        header("location: ../login.php");
+    }
+    
+
+    //import database
+    include("../connection.php");
+    $userrow = $database->query("select * from patient where pemail='$useremail'");
+    $userfetch=$userrow->fetch_assoc();
+    $userid= $userfetch["pid"];
+    $username=$userfetch["pname"];
+
+
+    //echo $userid;
+    //echo $username;
+
+
+    $sqlmain= "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate,appointment.service,appointment.product from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  patient.pid=$userid ";
+
+    if($_POST){
+        //print_r($_POST);
+        
+
+
+        
+        if(!empty($_POST["sheduledate"])){
+            $sheduledate=$_POST["sheduledate"];
+            $sqlmain.=" and schedule.scheduledate='$sheduledate' ";
+        };
+
+    
+
+        //echo $sqlmain;
+
+    }
+
+    $sqlmain.="order by appointment.appodate  asc";
+    $result= $database->query($sqlmain);
+    ?>
     <div class="container">
         <div class="menu">
         <table class="menu-container" border="0">
@@ -248,9 +300,13 @@ $result= $database->query($sqlmain);
                                             $docname=$row["docname"];
                                             $scheduledate=$row["scheduledate"];
                                             $scheduletime=$row["scheduletime"];
+                                            $service_type=$row["service"];
                                             $apponum=$row["apponum"];
                                             $appodate=$row["appodate"];
                                             $appoid=$row["appoid"];
+                                            $product_id = $row["product"];
+                                            
+                                            $product = $database->query("SELECT * FROM products WHERE id = $product_id")->fetch_assoc();
     
                                             if($scheduleid==""){
                                                 break;
@@ -275,10 +331,10 @@ $result= $database->query($sqlmain);
                                                                     '.substr($docname,0,30).'
                                                                 </div>
                                                                 <div class="h4-search">
-                                                                    Service: "NONE"
+                                                                    Service: '. $service_type .'
                                                                 </div>
                                                                 <div class="h4-search">
-                                                                    Reserve Item: "NONE"
+                                                                    Reserve Item: '. $product["name"] .'
                                                                 </div>
                                                                 
                                                                 
